@@ -20,7 +20,17 @@ const rqListener = (req, res) => {
   }
 
   if (url === '/message' && method === 'POST') {
-    fs.writeFileSync('message.txt', 'DUMMY');
+    const body = [];
+
+    req.on('data', chunk => {
+      body.push(chunk)
+    });
+    req.on('end', () => {
+      const parsedBody = Buffer.concat(body).toString();
+      const message = parsedBody.split('=')[1];
+      fs.writeFileSync('message.txt', message);
+    });
+
     // redirection
     res.statusCode = 302;
     res.setHeader('Location', '/');
