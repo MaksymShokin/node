@@ -7,6 +7,8 @@ const http = require('http');
 
 const rqListener = (req, res) => {
   console.log(req);
+  // stop function
+  process.exit();
 }
 
 const server = http.createServer(rqListener)
